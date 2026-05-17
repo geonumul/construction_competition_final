@@ -1,0 +1,5 @@
+﻿,정확도,정밀도,재현율,F1,ROC-AUC,PR-AUC,CV F1,최적 하이퍼파라미터
+LR,0.6545,0.4234,0.6026,0.4974,0.7038,0.4656,0.4854,{'model__C': 0.1}
+RF,0.6873,0.46,0.5897,0.5169,0.7052,0.4424,0.5207,"{'model__max_depth': 8, 'model__n_estimators': 400}"
+XGBoost,0.6982,0.4706,0.5128,0.4908,0.6943,0.4389,0.4741,"{'model__learning_rate': 0.05, 'model__max_depth': 3, 'model__n_estimators': 200}"
+LightGBM,0.6836,0.4471,0.4872,0.4663,0.7028,0.4772,0.4546,"{'model__learning_rate': 0.05, 'model__n_estimators': 200, 'model__num_leaves': 15}"
