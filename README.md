@@ -11,7 +11,8 @@
 - 출처: **제10차 산업안전보건 실태조사 (2021, 건설업)** — 한국산업안전보건공단 산업안전보건연구원
 - 원자료: 1,502개 사업장 (공사금액 50억 이상)
 - 최종 분석 표본: **1,375개 사업장 × 17개 변수** (전처리 완료, 박천수 2023·2024·2025와 동일한 Listwise Deletion 절차)
-- 분석용 파일: `data/전처리_최종.csv` (별도 복사)
+- 원자료: `data/제10차 산업안전보건 실태조사_raw data_건설업_230824.CSV`
+- 분석용 파일: `data/전처리_최종.csv` (재현은 `notebooks/01_전처리.ipynb`)
 
 ### 변수 구성 (17개)
 
@@ -45,9 +46,10 @@ construction_competition_final/
 ├── .gitignore
 ├── requirements.txt
 ├── data/
-│   └── 전처리_최종.csv          (사용자 복사)
+│   ├── 제10차 산업안전보건 실태조사_raw data_건설업_230824.CSV  (원자료)
+│   └── 전처리_최종.csv                                          (분석용)
 ├── notebooks/
-│   ├── 01_전처리.ipynb         (선택, 전처리 재현용)
+│   ├── 01_전처리.ipynb         (원자료 → 전처리_최종.csv 재현)
 │   └── 02_데이터분석.ipynb     (Phase 1~5 전체)
 ├── docs/
 │   ├── 데이터분석_과정_및_근거.md
@@ -69,10 +71,8 @@ python -m venv .venv
 # 2. 의존성 설치
 pip install -r requirements.txt
 
-# 3. 데이터 배치
-# data/전처리_최종.csv 를 직접 복사
-
-# 4. 노트북 실행
+# 3. 노트북 실행 (전처리 재현은 선택)
+jupyter notebook notebooks/01_전처리.ipynb   # 원자료 → 전처리_최종.csv (생략 가능, 결과 포함됨)
 jupyter notebook notebooks/02_데이터분석.ipynb
 ```
 
