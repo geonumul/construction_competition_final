@@ -147,16 +147,24 @@ report_dims(OUT / '11_roc_curves.png')
 
 
 # ============ 그림 7.2 — SHAP Bar 전체 27변수 (125.85 × 78.46 mm) ============
+# 파랑톤 2단 분리: 주요변수(독립A·B·조절 11) 진한 파랑, 통제(16) 옅은 파랑
+COLOR_FOCUS    = '#2A6DA8'   # 진한 파랑 (SHAP summary plot 톤)
+COLOR_CTRL_LT  = '#AEC7E8'   # 옅은 파랑
+
+focus_set = set(VARS_A + VARS_B + VARS_MOD)
+
 mean_abs = np.abs(shap_values).mean(axis=0)
 bar_df = pd.DataFrame({'변수': FEATURE_COLS, 'mean|SHAP|': mean_abs})
+bar_df['is_focus'] = bar_df['변수'].isin(focus_set)
 bar_df = bar_df.sort_values('mean|SHAP|', ascending=True).reset_index(drop=True)
+bar_colors = [COLOR_FOCUS if f else COLOR_CTRL_LT for f in bar_df['is_focus']]
 
 W = 125.85 / 25.4; H = 78.46 / 25.4
 fig = plt.figure(figsize=(W, H))
 gs = GridSpec(1, 1, left=0.27, right=0.97, top=0.97, bottom=0.10, figure=fig)
 ax = fig.add_subplot(gs[0])
 ax.barh(np.arange(len(bar_df)), bar_df['mean|SHAP|'],
-        color='#1F4E79', edgecolor='none', height=0.72)
+        color=bar_colors, edgecolor='none', height=0.72)
 
 xmax = bar_df['mean|SHAP|'].max()
 for i, val in enumerate(bar_df['mean|SHAP|']):
@@ -170,6 +178,14 @@ ax.set_xlim(0, xmax * 1.18)
 ax.spines['top'].set_visible(False)
 ax.spines['right'].set_visible(False)
 ax.grid(axis='x', alpha=1.0, color='#E0E0E0', linewidth=0.4)
+
+handles = [
+    Patch(facecolor=COLOR_FOCUS,   edgecolor='none', label='주요변수 (독립·조절)'),
+    Patch(facecolor=COLOR_CTRL_LT, edgecolor='none', label='통제변수'),
+]
+ax.legend(handles=handles, loc='lower right', frameon=True, framealpha=0.95,
+          edgecolor='#666666', fontsize=6.5,
+          handlelength=1.4, handletextpad=0.4, borderpad=0.3)
 
 fig.set_size_inches(W, H, forward=True)
 fig.savefig(OUT / '13_shap_bar.png', dpi=300, bbox_inches=None, pad_inches=0)
@@ -187,9 +203,11 @@ W = 107.39 / 25.4; H = 45.02 / 25.4
 fig = plt.figure(figsize=(W, H))
 ax = fig.add_axes([0.12, 0.26, 0.85, 0.69])
 
+# 양/음 색 분리 (SHAP summary plot 톤)
 rng = np.random.RandomState(42)
 xj = xv + rng.uniform(-0.10, 0.10, size=len(xv))
-ax.scatter(xj, yv, s=8, alpha=0.5, c='#1F4E79', edgecolors='none')
+colors = np.where(yv > 0, '#D62728', '#2A6DA8')   # 양수 빨강, 음수 진한 파랑
+ax.scatter(xj, yv, s=8, alpha=0.55, c=colors, edgecolors='none')
 
 ax.axhline(0, color='#888888', linestyle='--', linewidth=0.6)
 ax.axvline(3, color='#888888', linestyle='--', linewidth=0.6)
