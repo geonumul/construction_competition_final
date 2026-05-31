@@ -148,8 +148,8 @@ report_dims(OUT / '11_roc_curves.png')
 
 # ============ 그림 7.2 — SHAP Bar 전체 27변수 (125.85 × 78.46 mm) ============
 # 파랑톤 2단 분리: 주요변수(독립A·B·조절 11) 진한 파랑, 통제(16) 옅은 파랑
-COLOR_FOCUS    = '#2A6DA8'   # 진한 파랑 (SHAP summary plot 톤)
-COLOR_CTRL_LT  = '#AEC7E8'   # 옅은 파랑
+COLOR_FOCUS    = '#008BFB'   # legacy fig6_정리정돈 파랑 (SHAP 표준 cmap)
+COLOR_CTRL_LT  = '#B3DCFE'   # 동일 톤 옅은 변형 (주요·통제 명도 2단)
 
 focus_set = set(VARS_A + VARS_B + VARS_MOD)
 
@@ -203,11 +203,11 @@ W = 107.39 / 25.4; H = 45.02 / 25.4
 fig = plt.figure(figsize=(W, H))
 ax = fig.add_axes([0.12, 0.26, 0.85, 0.69])
 
-# 양/음 색 분리 (SHAP summary plot 톤)
+# SHAP 표준 cmap 양 끝 색 (legacy fig6_정리정돈_Dependence 톤 일치)
 rng = np.random.RandomState(42)
 xj = xv + rng.uniform(-0.10, 0.10, size=len(xv))
-colors = np.where(yv > 0, '#D62728', '#2A6DA8')   # 양수 빨강, 음수 진한 파랑
-ax.scatter(xj, yv, s=8, alpha=0.55, c=colors, edgecolors='none')
+colors = np.where(yv > 0, '#FF0052', '#008BFB')   # 양수 빨강, 음수 파랑
+ax.scatter(xj, yv, s=8, alpha=0.6, c=colors, edgecolors='none')
 
 ax.axhline(0, color='#888888', linestyle='--', linewidth=0.6)
 ax.axvline(3, color='#888888', linestyle='--', linewidth=0.6)
