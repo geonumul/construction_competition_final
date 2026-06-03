@@ -233,7 +233,7 @@ if mat is None:
 W = 93.03 / 25.4; H = 63.97 / 25.4
 fig = plt.figure(figsize=(W, H))
 gs = GridSpec(1, 2, width_ratios=[24, 1], wspace=0.05,
-              left=0.34, right=0.82, top=0.94, bottom=0.22, figure=fig)
+              left=0.34, right=0.82, top=0.94, bottom=0.28, figure=fig)
 ax = fig.add_subplot(gs[0])
 cax = fig.add_subplot(gs[1])
 
@@ -244,8 +244,10 @@ for i in range(len(rows)):
         text_color = 'white' if v > mat.max() * 0.55 else 'black'
         ax.text(j, i, f'{v:.4f}', ha='center', va='center',
                 fontsize=5.5, color=text_color)
+_xtick_wrap = {'고용노동부감독': '고용노동부\n감독', '안전보건공단지원': '안전보건\n공단지원'}
+_xtick_labels = [_xtick_wrap.get(c, c) for c in cols]
 ax.set_xticks(range(len(cols)))
-ax.set_xticklabels(cols, fontsize=6, rotation=15, ha='right', rotation_mode='anchor')
+ax.set_xticklabels(_xtick_labels, fontsize=6.5, ha='center')
 ax.set_yticks(range(len(rows))); ax.set_yticklabels(rows, fontsize=7)
 ax.tick_params(axis='both', length=0)
 ax.set_xlabel('조절변수', fontsize=7)
